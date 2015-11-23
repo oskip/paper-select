@@ -7,8 +7,8 @@
   <title>paper-select Demo</title>
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <script>
-  window.Polymer = window.Polymer || {};
-  window.Polymer.dom = 'shadow';
+  // window.Polymer = window.Polymer || {};
+  // window.Polymer.dom = 'shadow';
   </script>
   <link rel="import" href="../../paper-input/paper-input.html">
   <link rel="import" href="../../paper-progress/paper-progress.html">
@@ -78,18 +78,29 @@
   }, {
     id: 6,
     name: "Polymer"
-  }, {
-    id: 7,
-    name: "PHP"
-  }, {
-    id: 8,
-    name: "Java"
+      // }, {
+      //   id: 7,
+      //   name: "PHP"
+      // }, {
+      //   id: 8,
+      //   name: "Java"
   }];
   </script>
 
 </head>
 
 <body>
+
+    <!-- <template is="dom-template" id="template"><span>the template content</span></template>
+      <template is="dom-template" id="template-bind">-<span>[[key]]</span>-</template> -->
+
+    <!-- <template id="paper-select-selected-item-template" is="dom-template">
+        <span>[[item.name]]</span> 
+      </template>
+
+    <template id="paper-select-item-template" is="dom-template">
+      <span>[[item.name]]</span>
+    </template> -->
 
   <main>
 
@@ -243,6 +254,36 @@
         </div>
 
       </section>
+
+      <!-- <section class="card">
+
+          <h2>select input with custom select template</h2>
+
+            <div class="content">
+
+            <pre>input: <span>{{selectInput7Input}}</span></pre>
+
+            <paper-select id="selectInput7" 
+              multiple 
+              nonmatching on-adding-item="addItem" select-on-blur
+              label-field="name"
+              on-input-changed="inputChanged" input="{{selectInput7Input}}" 
+              label="Select your favorite programming language"
+            >
+
+              <template is="dom-template" selected-item>
+                <strong>{{item.name}}</strong>
+              </template>
+
+              <template is="dom-template" item>
+                <span>{{item.name}}</span> (<span>{{item.id}}</span>)
+              </template>
+
+            </paper-select>
+
+          </div>
+
+        </section> -->
 
     </template>
 

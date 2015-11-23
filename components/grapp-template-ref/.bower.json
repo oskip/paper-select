@@ -1,7 +1,7 @@
 {
   "name": "grapp-template-ref",
   "description": "",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "main": "grapp-template-ref.html",
   "license": "MIT",
   "ignore": [
@@ -38,11 +38,11 @@
     "jquery": "2.1.4",
     "coffee-script": "1.9.3"
   },
-  "_release": "0.0.2",
+  "_release": "0.0.5",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.2",
-    "commit": "d39fb8b545887fba26eb90064f76ec757be77681"
+    "tag": "0.0.5",
+    "commit": "2413d29d47e8b7deb1a04b3a09fc6c983f904916"
   },
   "_source": "git://github.com/grappendorf/grapp-template-ref.git",
   "_target": "~0.0.2",

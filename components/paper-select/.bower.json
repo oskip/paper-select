@@ -1,5 +1,6 @@
 {
   "name": "paper-select",
+  "version": "0.2.1",
   "authors": [
     "Nader Toukabri <contact@nader.tn>"
   ],
@@ -31,13 +32,14 @@
     "web-component-tester": "*",
     "paper-progress": "PolymerElements/paper-progress#^1.0.0"
   },
-  "_release": "829f9f77aa",
+  "_release": "0.2.1",
   "_resolution": {
-    "type": "branch",
-    "branch": "release",
-    "commit": "829f9f77aa9ba60d69adb632fc63ba7cb3e38e32"
+    "type": "version",
+    "tag": "0.2.1",
+    "commit": "1a38faf51205f1e1bcac4316d014fc73df0ae4af"
   },
   "_source": "git://github.com/naderio/paper-select.git",
-  "_target": "release",
-  "_originalSource": "naderio/paper-select"
+  "_target": "~0.2.1",
+  "_originalSource": "paper-select",
+  "_direct": true
 }
