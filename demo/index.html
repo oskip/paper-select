@@ -7,8 +7,8 @@
   <title>paper-select Demo</title>
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <script>
-  window.Polymer = window.Polymer || {};
-  window.Polymer.dom = 'shadow';
+  // window.Polymer = window.Polymer || {};
+  // window.Polymer.dom = 'shadow';
   </script>
   <link rel="import" href="../../paper-input/paper-input.html">
   <link rel="import" href="../../paper-progress/paper-progress.html">
@@ -215,7 +215,7 @@
 
           <h3>auto-validation</h3>
 
-          <paper-select multiple label-field="name"on-input-changed="inputChanged" auto-validate required error-message="This field is required" label="Select your favorite programming language">
+          <paper-select multiple label-field="name" on-input-changed="inputChanged" auto-validate required error-message="This field is required" label="Select your favorite programming language">
           </paper-select>
 
         </div>
@@ -310,7 +310,7 @@
       });
     else
       e.target.options = [];
-   // console.log('input-changed', e.detail.value, e.target.options);
+    // console.log('input-changed', e.detail.value, e.target.options);
   };
 
   template.inputChanged_ = function(e) {
