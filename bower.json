@@ -1,6 +1,6 @@
 {
   "name": "paper-select",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "authors": [
     "Nader Toukabri <contact@nader.tn>"
   ],
@@ -25,8 +25,7 @@
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.0",
     "paper-input": "PolymerElements/paper-input#^1.0.0",
     "paper-menu": "PolymerElements/paper-menu#^1.0.0",
-    "paper-item": "PolymerElements/paper-item#^1.0.0",
-    "grapp-template-ref": "~0.0.2"
+    "paper-item": "PolymerElements/paper-item#^1.0.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
