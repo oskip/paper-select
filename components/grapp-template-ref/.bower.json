@@ -44,7 +44,7 @@
     "tag": "0.0.5",
     "commit": "2413d29d47e8b7deb1a04b3a09fc6c983f904916"
   },
-  "_source": "git://github.com/grappendorf/grapp-template-ref.git",
+  "_source": "https://github.com/grappendorf/grapp-template-ref.git",
   "_target": "~0.0.2",
   "_originalSource": "grapp-template-ref"
 }

@@ -41,8 +41,7 @@ Polymer({
     input: {
       type: String,
       value: '',
-      notify
-: true,
+      notify: true,
       observer: '_inputChanged',
     },
 
@@ -335,6 +334,12 @@ Polymer({
 
   _onInputKeyDown: function (event, detail) {
     switch (event.keyCode) {
+    case 8: // backspace
+      if (this.multiple && this.input.length === 0 && this.bindValue && this.bindValue.length > 0) {
+        this.pop('bindValue');
+      }
+
+      break;
     case 188: // comma
       if (this.nonmatching && this.input.trim()) {
         event.preventDefault();
@@ -347,12 +352,6 @@ Polymer({
   _onInputKeyÛp: function (event, detail) {
     // console.log('_onInputKeyÛp', event, event.keyCode);
     switch (event.keyCode) {
-    case 8: // backspace
-      if (this.multiple && this.input.length === 0 && this.bindValue && this.bindValue.length > 0) {
-        this.pop('bindValue');
-      }
-
-      break;
     case 188: // comma
     case 13: // enter
       if (this.nonmatching && this.input.trim()) {
@@ -423,7 +422,7 @@ Polymer({
     if (this.multiple) {
       if (!this.bindValue)
         this.set('bindValue', [item]);
-      else
+      else if (!this.unique || this.bindValue.indexOf(item) === -1)
         this.push('bindValue', item);
     } else {
       this.set('bindValue', item);

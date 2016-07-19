@@ -17,10 +17,13 @@
   "homepage": "https://github.com/naderio/paper-select/",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
-    "paper-select": "naderio/paper-select#release"
+    "paper-select": "naderio/paper-select#0.2.2"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "paper-progress": "PolymerElements/paper-progress#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^1.2.0"
   }
 }
