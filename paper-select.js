@@ -41,8 +41,7 @@ Polymer({
     input: {
       type: String,
       value: '',
-      notify
-: true,
+      notify: true,
       observer: '_inputChanged',
     },
 
@@ -335,7 +334,7 @@ Polymer({
 
   _onInputKeyDown: function (event, detail) {
     switch (event.keyCode) {
-          case 8: // backspace
+    case 8: // backspace
       if (this.multiple && this.input.length === 0 && this.bindValue && this.bindValue.length > 0) {
         this.pop('bindValue');
       }
@@ -423,7 +422,7 @@ Polymer({
     if (this.multiple) {
       if (!this.bindValue)
         this.set('bindValue', [item]);
-      else
+      else if (!this.unique || this.bindValue.indexOf(item) === -1)
         this.push('bindValue', item);
     } else {
       this.set('bindValue', item);
