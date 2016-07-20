@@ -121,7 +121,7 @@ Example:
         </template>
         <content select="paper-item">
           <paper-item class="add-action" on-tap="_addItem" on-keydown="_addItemOnEnter" hidden$="{{!_showAddAction}}" disabled$="{{!_showAddAction}}">
-            <span>Add</span>&nbsp;<strong>{{input}}</strong>
+            <span>{{addActionLabel}}</span>&nbsp;<strong>{{input}}</strong>
             <paper-ripple></paper-ripple>
           </paper-item>
         </content>

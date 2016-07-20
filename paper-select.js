@@ -117,6 +117,14 @@ Polymer({
       reflectToAttribute: true,
     },
 
+    /**
+     * Label for item adding issue
+     */
+    addActionLabel: {
+      type: String,
+      value: "Add",
+    },
+
     _showInput: {
       computed: '_computeShowInput(multiple, bindValue)'
     },
