@@ -41,7 +41,7 @@ Polymer({
     input: {
       type: String,
       value: '',
-      notify: true,
+      notify: false,
       observer: '_inputChanged',
     },
 
@@ -78,6 +78,24 @@ Polymer({
     nonmatching: {
       type: Boolean,
       value: false,
+      reflectToAttribute: true,
+    },
+
+    /**
+     * Debounce `input-changed` event
+     */
+    debounceInput: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true,
+    },
+
+    /**
+     * Delay for `input-changed` event debounce
+     */
+    debounceWait: {
+      type: Number,
+      value: 300,
       reflectToAttribute: true,
     },
 
@@ -146,7 +164,8 @@ Polymer({
   listeners: {
     // 'blur': '_onBlur',
     // 'keydown': '_onKeyDown',
-    'input.bind-value-changed': '_stopPropagation'
+    'input.bind-value-changed': '_stopPropagation',
+    'input.input': '_forwardInputChangeEvent',
   },
 
   // Element Lifecycle
@@ -192,7 +211,8 @@ Polymer({
   // Element Behavior
 
   _inputChanged: function () {
-    // console.log('_inputChanged', arguments);    this._fixLabelState();
+    // console.log('_inputChanged', arguments);
+    this._fixLabelState();
   },
 
   _valueChanged: function () {
@@ -326,6 +346,21 @@ Polymer({
     event.stopPropagation();
   },
 
+  _forwardInputChangeEvent: function (event, detail) {
+    event.stopPropagation();
+
+    // console.log('_forwardInputChangeEvent', event);
+
+    if (this.debounceInput) {
+      this.debounce('_forwardInputChangeEvent', function () {
+        this.fire('input-changed', event.target);
+      }, this.debounceWait);
+    } else {
+      this.fire('input-changed', event.target);
+    }
+
+  },
+
   _cancelKeyboardEventScroll: function (event, detail) {
     detail.keyboardEvent.preventDefault();
 
@@ -456,6 +491,13 @@ Polymer({
    * The `adding-item` event is fired whenever an item is added.
    *
    * @event adding-item
+   * @detail {{value: String}}
+   */
+
+  /**
+   * The `input-changed` event is fired whenever input is changed
+   *
+   * @event input-changed
    * @detail {{value: String}}
    */
 

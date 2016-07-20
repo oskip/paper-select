@@ -129,7 +129,7 @@
 
           <pre>value: <span>{{json(selectInput1Value)}}</span></pre>
 
-          <paper-select id="selectInput2" multiple unique nonmatching on-adding-item="addItem" select-on-blur i-label-field="name" label-field="{{labelFromItemObject}}" value-field="id" bind-value="{{selectInput2Value}}" on-input-changed="inputChanged" label="Select your favorite programming language" add-action-label="Ajouter">
+          <paper-select id="selectInput2" multiple unique nonmatching on-adding-item="addItem" debounce-input i-debounce-wait="500" select-on-blur i-label-field="name" label-field="{{labelFromItemObject}}" value-field="id" bind-value="{{selectInput2Value}}" on-input-changed="inputChanged" label="Select your favorite programming language" add-action-label="Ajouter">
           </paper-select>
 
           <pre>value: <span>{{json(selectInput2Value)}}</span></pre>
@@ -304,6 +304,7 @@
 
   template.inputChanged = function(e, d) {
     var input = (e.detail.value || '').trim().toLowerCase();
+    console.log('inputChanged', input);
     if (input)
       e.target.options = data.filter(function(item) {
         return item.name.toLowerCase().indexOf(input) === 0;
@@ -315,6 +316,7 @@
 
   template.inputChanged_ = function(e) {
     var input = (e.detail.value || '').trim().toLowerCase();
+    console.log('inputChanged', input);
     if (input)
       e.target.options = data.filter(function(item) {
         return item.name.toLowerCase().indexOf(input) === 0;
