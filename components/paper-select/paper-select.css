@@ -122,16 +122,16 @@
 }
 
 :host paper-menu paper-item,
-:host ::content paper-item {
+:host::content paper-item {
   position: relative;
   cursor: pointer;
 }
 
-:host ::content paper-progress {
+:host::content paper-progress {
   position: absolute;
   left: 0;
   right: 0;
-  width: auto;
+  width: auto !important;
   height: 2px;
   z-index: 1
 }
