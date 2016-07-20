@@ -235,28 +235,40 @@ Polymer({
   /**
    * Prepares select/option item's display.
    *
-   * @param {object} Select item data.
+   * @param {item} Select item data.
    * @return {string} Label.
    */
-  _labelOf: function (obj) {
-    // console.log('_labelOf', this.labelField, this.valueField, obj)
-    if (this.labelField === null && this.valueField === null)
-      return obj || '';
-    return typeof obj === 'object' && obj ? obj[this.labelField || this.valueField] : obj || '';
+  _labelOf: function (item) {
+    // console.log('_labelOf', this.labelField, this.valueField, item);$
+    if (typeof this.labelField === 'function') {
+      return this.labelField(item);
+    } else {
+      if (typeof item === 'object' && item) {
+        return item[this.labelField || this.valueField];
+      } else {
+        return item || '';
+      }
+    }
   },
 
-  _valueOf: function (obj) {
-    // console.log('_valueOf', this.labelField, this.valueField, obj)
-    if (this.valueField === null)
-      return obj || '';
-    return typeof obj === 'object' && obj ? obj[this.valueField] : obj || '';
+  _valueOf: function (item) {
+    // console.log('_valueOf', this.valueField, item)
+    if (typeof this.valueField === 'function') {
+      return this.valueField(item);
+    } else {
+      if (typeof item === 'object' && item) {
+        return item[this.valueField];
+      } else {
+        return item || '';
+      }
+    }
   },
 
-  _formValueOf: function (obj) {
-    // console.log('_formValueOf', this.labelField, this.valueField, obj)
+  _formValueOf: function (item) {
+    // console.log('_formValueOf', this.labelField, this.valueField, item)
     if (this.valueField === null && this.labelField === null)
-      return obj || '';
-    return typeof obj === 'object' && obj ? obj[this.valueField || this.labelField] : obj || '';
+      return item || '';
+    return typeof item === 'object' && item ? item[this.valueField || this.labelField] : item || '';
   },
 
   _highlight: function (label) {
