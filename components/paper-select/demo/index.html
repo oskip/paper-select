@@ -91,10 +91,10 @@
 
 <body>
 
-    <!-- <template is="dom-template" id="template"><span>the template content</span></template>
+  <!-- <template is="dom-template" id="template"><span>the template content</span></template>
       <template is="dom-template" id="template-bind">-<span>[[key]]</span>-</template> -->
 
-    <!-- <template id="paper-select-selected-item-template" is="dom-template">
+  <!-- <template id="paper-select-selected-item-template" is="dom-template">
         <span>[[item.name]]</span> 
       </template>
 
@@ -129,7 +129,7 @@
 
           <pre>value: <span>{{json(selectInput1Value)}}</span></pre>
 
-          <paper-select id="selectInput2" multiple unique nonmatching on-adding-item="addItem" select-on-blur label-field="name" value-field="id" bind-value="{{selectInput2Value}}" on-input-changed="inputChanged" label="Select your favorite programming language">
+          <paper-select id="selectInput2" multiple unique nonmatching on-adding-item="addItem" select-on-blur i-label-field="name" label-field="{{labelFromItemObject}}" value-field="id" bind-value="{{selectInput2Value}}" on-input-changed="inputChanged" label="Select your favorite programming language">
           </paper-select>
 
           <pre>value: <span>{{json(selectInput2Value)}}</span></pre>
@@ -148,7 +148,7 @@
 
           <pre>value: <span>{{json(selectOneInput1Value)}}</span></pre>
 
-          <paper-select id="selectOneInput2" nonmatching on-adding-item="addItem" select-on-blur label-field="name" bind-value="{{selectOneInput2Value}}" on-input-changed="inputChanged" label="Select your favorite programming language">
+          <paper-select id="selectOneInput2" nonmatching on-adding-item="addItem" select-on-blur i-label-field="name" label-field="{{labelFromItemObject}}" bind-value="{{selectOneInput2Value}}" on-input-changed="inputChanged" label="Select your favorite programming language">
           </paper-select>
 
           <pre>value: <span>{{json(selectOneInput2Value)}}</span></pre>
@@ -168,7 +168,7 @@
 
           <pre>value: <span>{{selectInput3Value}}</span></pre>
 
-          <paper-select id="selectInput4" multiple unique nonmatching select-on-blur bind-value="{{selectInput4Value}}" on-input-changed="inputChanged_" label="Select your favorite programming language">
+          <paper-select id="selectInput4" multiple unique nonmatching select-on-blur label-field="{{labelFromItemString}}" bind-value="{{selectInput4Value}}" on-input-changed="inputChanged_" label="Select your favorite programming language">
           </paper-select>
 
           <pre>value: <span>{{json(selectInput4Value)}}</span></pre>
@@ -188,7 +188,7 @@
 
           <pre>value: <span>{{json(selectOneInput3Value)}}</span></pre>
 
-          <paper-select id="selectOneInput4" nonmatching select-on-blur label-field="name" bind-value="{{selectOneInput4Value}}" on-input-changed="inputChanged_" label="Select your favorite programming language">
+          <paper-select id="selectOneInput4" nonmatching select-on-blur label-field="{{labelFromItemString}}" bind-value="{{selectOneInput4Value}}" on-input-changed="inputChanged_" label="Select your favorite programming language">
           </paper-select>
 
           <pre>value: <span>{{json(selectOneInput4Value)}}</span></pre>
@@ -337,6 +337,14 @@
   template.addItemCustom = function(e, d) {
     console.log('adding-item', d, e);
     // ...
+  };
+
+  template.labelFromItemObject = function(item) {
+    return '<strong>' + item.name + '</strong>!';
+  };
+
+  template.labelFromItemString = function(item) {
+    return '<strong>' + item + '</strong>!';
   };
 
   template.addEventListener('dom-change', function() {
