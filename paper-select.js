@@ -396,6 +396,7 @@ Polymer({
 
       break;
     case 188: // comma
+    case 13: // enter
       if (this.nonmatching && this.input.trim()) {
         event.preventDefault();
       }
