@@ -449,6 +449,8 @@ Polymer({
   _optionItemKeyUp: function (event, detail) {
     if (event.keyCode === 13) { // enter
       this.selectItem(event.model.item);
+      event.preventDefault();
+      event.stopPropagation();
     }
   },
 
