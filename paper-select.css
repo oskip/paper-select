@@ -110,6 +110,10 @@
   cursor: pointer;
 }
 
+:host #clearButton[hidden] {
+    display: none !important;
+}
+
 :host paper-menu {
   position: absolute;
   left: 4px;
