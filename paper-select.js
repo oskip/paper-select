@@ -55,7 +55,7 @@ Polymer({
     },
 
     /**
-     * Multuple selection mode, tags-like 
+     * Multuple selection mode, tags-like
      */
     multiple: {
       type: Boolean,
@@ -143,6 +143,11 @@ Polymer({
       value: "Add"
     },
 
+    _preventBlur: {
+        type: Boolean,
+        value: false
+    },
+
     _showInput: {
       computed: '_computeShowInput(multiple, bindValue)'
     },
@@ -162,10 +167,9 @@ Polymer({
   ],
 
   listeners: {
-    // 'blur': '_onBlur',
     // 'keydown': '_onKeyDown',
     'input.bind-value-changed': '_stopPropagation',
-    'input.input': '_forwardInputChangeEvent',
+    'input.input': '_forwardInputChangeEvent'
   },
 
   // Element Lifecycle
@@ -319,8 +323,10 @@ Polymer({
   _onBlur: function () {
     // if (this.nonmatching && this.input && this.selectOnBlur)
     //   this._addItem();
-    // if (!this.keepOnBlur)
-    //   this.async(this.clear.bind(this), 100);
+     if (!this.keepOnBlur && !this._preventBlur) {
+         this.async(this.clear.bind(this), 100);
+     }
+      this._preventBlur = false;
   },
 
   _onKeyDown: function (event, detail) {
@@ -393,7 +399,6 @@ Polymer({
       if (this.multiple && this.input.length === 0 && this.bindValue && this.bindValue.length > 0) {
         this.pop('bindValue');
       }
-
       break;
     case 188: // comma
     case 13: // enter
@@ -402,11 +407,16 @@ Polymer({
       }
 
       break;
+    case 38: // up arrow
+    case 40: // down arrow
+      // input's on-keydown event is called before on-blur event
+      this._preventBlur = true;
+      break;
     }
   },
 
-  _onInputKeyÛp: function (event, detail) {
-    // console.log('_onInputKeyÛp', event, event.keyCode);
+  _onInputKeyUp: function (event, detail) {
+    // console.log('_onInputKeyUp', event, event.keyCode);
     switch (event.keyCode) {
     case 188: // comma
     case 13: // enter
@@ -477,7 +487,6 @@ Polymer({
   },
 
   selectItem: function (item) {
-      debugger;
     if (this.multiple) {
       if (!this.bindValue)
         this.set('bindValue', [item]);

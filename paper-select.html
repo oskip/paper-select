@@ -102,7 +102,8 @@ Example:
           autofocus$="[[autofocus]]" 
           i-readonly$="[[readonly]]" 
           on-keydown="_onInputKeyDown" 
-          on-keyup="_onInputKeyÛp"
+          on-keyup="_onInputKeyUp"
+          on-blur="_onBlur"
         >
 
         <a id="clearButton" hidden$="{{!input}}" on-tap="clear" hidden$="[[readonly]]"></a>
