@@ -49,7 +49,7 @@ Polymer({
      * Element's selected value
      */
     bindValue: {
-      type: Object,
+      type: Array,
       value: null,
       notify: true
     },
@@ -477,6 +477,7 @@ Polymer({
   },
 
   selectItem: function (item) {
+      debugger;
     if (this.multiple) {
       if (!this.bindValue)
         this.set('bindValue', [item]);
