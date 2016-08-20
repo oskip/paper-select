@@ -14,7 +14,7 @@ Polymer({
     role: 'button'
   },
 
-  _defaultValue: null,
+  _defaultValue: [],
 
   properties: {
 
@@ -50,7 +50,7 @@ Polymer({
      */
     bindValue: {
       type: Array,
-      value: null,
+      value: [],
       notify: true
     },
 
@@ -317,7 +317,8 @@ Polymer({
 
   _fixLabelState: function () {
     // console.log('_fixLabelState')
-    this.$.inputContainer._inputHasContent = !!this.bindValue || !!this.input;
+      var bindValueHasValue = (this.bindValue instanceof Array) ? this.bindValue.length > 0 : false;
+      this.$.inputContainer._inputHasContent = bindValueHasValue || !!this.input;
   },
 
   _onBlur: function () {
@@ -327,6 +328,7 @@ Polymer({
          this.async(this.clear.bind(this), 100);
      }
       this._preventBlur = false;
+      this._fixLabelState();
   },
 
   _onKeyDown: function (event, detail) {
