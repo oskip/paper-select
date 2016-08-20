@@ -22,7 +22,7 @@ Polymer({
       type: Object,
       value: function () {
         return this.$.input;
-      },
+      }
     },
 
     /**
@@ -32,7 +32,7 @@ Polymer({
       type: Array,
       value: function () {
         return [];
-      },
+      }
     },
 
     /**
@@ -42,7 +42,7 @@ Polymer({
       type: String,
       value: '',
       notify: false,
-      observer: '_inputChanged',
+      observer: '_inputChanged'
     },
 
     /**
@@ -51,7 +51,7 @@ Polymer({
     bindValue: {
       type: Object,
       value: null,
-      notify: true,
+      notify: true
     },
 
     /**
@@ -60,7 +60,7 @@ Polymer({
     multiple: {
       type: Boolean,
       value: false,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -69,7 +69,7 @@ Polymer({
     unique: {
       type: Boolean,
       value: false,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -78,7 +78,7 @@ Polymer({
     nonmatching: {
       type: Boolean,
       value: false,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -87,7 +87,7 @@ Polymer({
     debounceInput: {
       type: Boolean,
       value: false,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -96,7 +96,7 @@ Polymer({
     debounceWait: {
       type: Number,
       value: 300,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -105,7 +105,7 @@ Polymer({
     selectOnBlur: {
       type: Boolean,
       value: false,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -114,7 +114,7 @@ Polymer({
     keepOnBlur: {
       type: Boolean,
       value: false,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -123,7 +123,7 @@ Polymer({
     labelField: {
       type: String,
       value: null,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -132,7 +132,7 @@ Polymer({
     valueField: {
       type: String,
       value: null,
-      reflectToAttribute: true,
+      reflectToAttribute: true
     },
 
     /**
@@ -140,7 +140,7 @@ Polymer({
      */
     addActionLabel: {
       type: String,
-      value: "Add",
+      value: "Add"
     },
 
     _showInput: {
@@ -153,7 +153,7 @@ Polymer({
 
     _showAddAction: {
       computed: '_computeShowAddAction(nonmatching, input)'
-    },
+    }
 
   },
 
