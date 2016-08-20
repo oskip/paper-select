@@ -148,6 +148,12 @@ Polymer({
         value: false
     },
 
+      _isFocused: {
+          type: Boolean,
+          value: false,
+          notify: true
+      },
+
     _showInput: {
       computed: '_computeShowInput(multiple, bindValue)'
     },
@@ -313,10 +319,13 @@ Polymer({
 
   _focus: function () {
     this.$.input.focus();
+      if (!this.input && this._isFocused) {
+          this.fire("empty-input-selected", {target: this});
+      }
   },
 
+
   _fixLabelState: function () {
-    // console.log('_fixLabelState')
       var bindValueHasValue = (this.bindValue instanceof Array) ? this.bindValue.length > 0 : false;
       this.$.inputContainer._inputHasContent = bindValueHasValue || !!this.input;
   },
@@ -325,7 +334,7 @@ Polymer({
     // if (this.nonmatching && this.input && this.selectOnBlur)
     //   this._addItem();
      if (!this.keepOnBlur && !this._preventBlur) {
-         this.async(this.clear.bind(this), 100);
+         this.async(this.clear.bind(this), 200);
      }
       this._preventBlur = false;
       this._fixLabelState();
@@ -412,7 +421,7 @@ Polymer({
     case 38: // up arrow
     case 40: // down arrow
       // input's on-keydown event is called before on-blur event
-      this._preventBlur = true;
+        this._preventBlur = true;
       break;
     }
   },
@@ -500,7 +509,7 @@ Polymer({
     this.async(this.clear.bind(this));
     if (this.multiple)
       this.async(this._focus.bind(this));
-  },
+  }
 
   /**
    * The `adding-item` event is fired whenever an item is added.
