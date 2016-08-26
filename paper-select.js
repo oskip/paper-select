@@ -1,4 +1,11 @@
 'use strict';
+//TODO:
+//- dodanie metod _onOutsideClickListener, _add(...), _remove(...)
+//- rejestrowanie w.w. event listenerów przy otwarciu/zamknięciu overlaya
+//- overlayem steruje zmienna _open
+//- filtrowanie po stronie komponentu
+//- pokazywanie wszystkich opcji po stronie komponentu (property z danymi)
+//- uporządkowanie odwołań do _fixLabelState
 
 Polymer({
 
