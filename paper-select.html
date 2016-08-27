@@ -28,11 +28,11 @@ Example:
     template.inputChanged = function(e) {
       var input = (e.detail.value || '').trim().toLowerCase();
       if (input)
-        e.target.options = data.filter(function(item) {
+        e.target._displayedOptions = data.filter(function(item) {
           return item.name.toLowerCase().indexOf(input) === 0;
         });
       else
-        e.target.options = [];
+        e.target._displayedOptions = [];
     };
     
     template.addItem = function(e) {
@@ -105,7 +105,6 @@ Example:
                i-readonly$="[[readonly]]"
                on-keydown="_onInputKeyDown"
                on-keyup="_onInputKeyUp"
-               on-blur="_onBlur"
         >
 
         <a id="clearButton" hidden$="{{!input}}" on-tap="clear" hidden$="[[readonly]]"></a>
@@ -115,7 +114,7 @@ Example:
       <content select="paper-progress"></content>
 
       <paper-menu id="optionsMenu" hidden$="{{!_showOptions}}" i-tabindex="0">
-        <template id="optionsRepeat" is="dom-repeat" items="{{options}}">
+        <template id="optionsRepeat" is="dom-repeat" items="{{_displayedOptions}}">
           <paper-item on-tap="_optionItemTapped" on-keydown="_optionItemKeyUp" tabindex="0">
             <!-- <span>[[_labelOf(item)]]</span> -->
             <span inner-h-t-m-l="[[_labelOf(item)]]"></span>
@@ -183,13 +182,11 @@ Example:
         }
       },
 
-      /**
-       * Indicates if a option list is visible or not
-       */
-      opened: {
+      _opened: {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
+        notify: true,
         observer: '_openedChanged'
       },
 
@@ -201,6 +198,14 @@ Example:
         value: function () {
           return [];
         }
+      },
+
+      _displayedOptions: {
+        type: Array,
+        value: function () {
+          return [];
+        },
+        notify: true
       },
 
       /**
@@ -311,11 +316,6 @@ Example:
         value: "Add"
       },
 
-      _preventBlur: {
-        type: Boolean,
-        value: false
-      },
-
       _isFocused: {
         type: Boolean,
         value: false,
@@ -367,13 +367,16 @@ Example:
 
     // <PROPERTY OBSERVERS>
 
-    _inputChanged: function () {
-      // console.log('_inputChanged', arguments);
+    _inputChanged: function (value, oldValue) {
+      // Prevent call on setting to default
+      if (oldValue === undefined) return;
+
+      if (!this._opened) this.open();
+      else this._showFilteredOptions();
       this._fixLabelState();
     },
 
     _valueChanged: function () {
-      // console.log('_valueChanged', this, arguments);
       if (this.multiple)
         this.value = this.bindValue ? this.bindValue.map(this._formValueOf.bind(this)).join(',') : '';
       else
@@ -386,7 +389,7 @@ Example:
       // Prevent call on setting to default
       if (oldValue === undefined) return;
 
-      if (this.opened) this._open();
+      if (value) this._open();
       else this._close();
     },
 
@@ -397,8 +400,8 @@ Example:
      */
     open: function () {
       // Prevent _open() being called when input is disabled or read-only
-      if (!this.disabled && !this.readonly) {
-        this.opened = true;
+      if (!this.disabled && !this.readonly && !this._opened) {
+        this._opened = true;
       }
     },
 
@@ -407,25 +410,50 @@ Example:
 
       if (!this._inputElement.focused)
         this._inputElement.focus();
-      this.options = this._getFilteredOptions();
+      this._showFilteredOptions();
     },
 
     /**
      * Closes options select menu
      */
     close: function () {
-      this.opened = false;
+      this._opened = false;
     },
 
-    _close: function() {
+    _close: function () {
       this._removeOutsideClickListener();
 
       this.fire('dropdown-closed');
-      this.options = [];
+      this.set('_displayedOptions', []);
+      this.clear();
     },
 
-    _getFilteredOptions: function () {
-      return this.options;
+    _showFilteredOptions: function () {
+      var input = (this.input || '').trim().toLowerCase();
+
+      if (input)
+        this.set('_displayedOptions', this.options.filter(function (item) {
+          return item.name.toLowerCase().indexOf(input) !== -1;
+        }).slice());
+      // If no input, show all options
+      else this.set('_displayedOptions', this.options.slice());
+    },
+
+    /**
+     * Resets component.
+     */
+    reset: function () {
+      this.set('bindValue', this._defaultValue);
+      this.clear();
+    },
+
+    /**
+     * Resets component's input.
+     */
+    clear: function () {
+      this.input = '';
+      this._displayedOptions = [];
+      this.$.optionsMenu.selected = null;
     },
 
     // <COMPUTED PROPERTIES>
@@ -443,23 +471,6 @@ Example:
     },
 
     // </COMPUTED PROPERTIES>
-
-    /**
-     * Resets component.
-     */
-    reset: function () {
-      this.set('bindValue', this._defaultValue);
-      this.clear();
-    },
-
-    /**
-     * Resets component's input.
-     */
-    clear: function () {
-      this.input = '';
-      this.options = null;
-      this.$.optionsMenu.selected = null;
-    },
 
     /**
      * Prepares select/option item's display.
@@ -500,11 +511,8 @@ Example:
       return typeof item === 'object' && item ? item[this.valueField || this.labelField] : item || '';
     },
 
-    _highlight: function (label) {
-      return label.substr(0, this.input.length);
-    },
-
     _focus: function () {
+      console.log('focus')
       this.$.input.focus();
       if (!this.input && this._isFocused) {
         this.fire("empty-input-selected", {target: this});
@@ -514,16 +522,6 @@ Example:
     _fixLabelState: function () {
       var bindValueHasValue = (this.bindValue instanceof Array) ? this.bindValue.length > 0 : false;
       this.$.inputContainer._inputHasContent = bindValueHasValue || !!this.input;
-    },
-
-    _onBlur: function () {
-      // if (this.nonmatching && this.input && this.selectOnBlur)
-      //   this._addItem();
-      if (!this.keepOnBlur && !this._preventBlur) {
-        this.async(this.clear.bind(this), 200);
-      }
-      this._preventBlur = false;
-      this._fixLabelState();
     },
 
     _onKeyDown: function (event, detail) {
@@ -586,7 +584,6 @@ Example:
       } else {
         this.set('bindValue', this._defaultValue);
       }
-      this.async(this.clear.bind(this));
       this.async(this._focus.bind(this));
     },
 
@@ -602,12 +599,6 @@ Example:
           if (this.nonmatching && this.input.trim()) {
             event.preventDefault();
           }
-
-          break;
-        case 38: // up arrow
-        case 40: // down arrow
-          // input's on-keydown event is called before on-blur event
-          this._preventBlur = true;
           break;
       }
     },
@@ -622,10 +613,9 @@ Example:
           }
 
           break;
-
-        // case 27: // escape
-        //   this.clear();
-        //   break;
+        case 27: // escape
+          this.close();
+          break;
         // case 40: // down arrow
         //   this.$.optionsMenu.focus();
         //   this.$.optionsMenu.selected = 0;
@@ -679,7 +669,6 @@ Example:
       } else {
         this.set('bindValue', item);
       }
-      this.async(this.clear.bind(this));
       if (this.multiple)
         this.async(this._focus.bind(this));
     }

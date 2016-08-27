@@ -1,40 +1,31 @@
+<!-- Created on 2016-08-27 -->
+<link rel="import" href="../polymer/polymer.html">
+
 <script>
   window.PaperSelect = window.PaperSelect || {};
+
   PaperSelect.ClickOutsideBehavior = {
-    properties: {
-      _dismissOnClickOutside: {
-        type: Boolean,
-        value: true
-      }
-    },
-    // We need to listen on 'click' / 'tap' event and capture it and close the overlay before
-    // propagating the event to the listener in the button. Otherwise, if the clicked button would call
-    // open(), this would happen: https://www.youtube.com/watch?v=Z86V_ICUCD4
-    _outsideClickListener: function(event) {
+    _outsideClickListener: function (event) {
+      console.log('on outside click...');
       var eventPath = Polymer.dom(event).path;
       if (eventPath.indexOf(this) === -1) {
-        this.opened = false;
+        this._opened = false;
       }
     },
 
-    _addOutsideClickListener: function() {
-      // With desktop mouse, 'click' will make Polymer to fire 'tap' event.
-      // With touch devices, 'touchend' will make Polymer to fire 'tap' event, but browser will also fire 'click'.
-      // So, 'click' and 'tap' can come in any order and we need to make sure that the first one fired will close the overlay.
-      if (this._dismissOnClickOutside) {
-        Polymer.Gestures.add(document, 'tap', null);
-        document.addEventListener('tap', this._outsideClickListener.bind(this), true);
-        document.addEventListener('click', this._outsideClickListener.bind(this), true);
-      }
+    _addOutsideClickListener: function () {
+      Polymer.Gestures.add(document, 'tap', null);
+      this.callbackInstance = this.callbackInstance || this._outsideClickListener.bind(this);
+
+      document.addEventListener('tap', this.callbackInstance, true);
+      document.addEventListener('click', this.callbackInstance, false);
     },
 
-    _removeOutsideClickListener: function() {
-      if (this._dismissOnClickOutside) {
-        // Not sure if this is a good idea to remove this Gesture globally, but that's how the iron-overlay-behavior does it.
-        Polymer.Gestures.remove(document, 'tap', null);
-        document.removeEventListener('tap', this._outsideClickListener.bind(this), true);
-        document.removeEventListener('click', this._outsideClickListener.bind(this), true);
-      }
+    _removeOutsideClickListener: function () {
+      // Not sure if this is a good idea to remove this Gesture globally, but that's how the iron-overlay-behavior does it.
+      Polymer.Gestures.remove(document, 'tap', null);
+      document.removeEventListener('tap', this.callbackInstance, true);
+      document.removeEventListener('click', this.callbackInstance, false);
     }
   }
 </script>
